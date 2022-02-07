@@ -11,6 +11,10 @@ type User struct {
 	LastName  string `json:"lastname"`
 	Email     string `json:"email" gorm:"not null;unique"`
 	Password  []byte `json:"-"`
+	Product   []Product
+	Cart      []Cart
+	Order     []Order
+	Reviews   []Reviews
 }
 
 func (user *User) SetPassword(password string) {

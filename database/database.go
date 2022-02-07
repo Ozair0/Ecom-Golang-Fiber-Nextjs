@@ -22,6 +22,9 @@ func Connect() {
 	fmt.Println("Database connection successfully opened")
 }
 func AutoMigrate() {
-	DBConn.AutoMigrate(models.User{})
+	err := DBConn.AutoMigrate(models.User{}, models.Store{}, models.Product{}, models.Order{}, models.OrderItems{}, models.Cart{}, models.CartItems{}, models.Coupons{}, models.Reviews{})
+	if err != nil {
+		return
+	}
 	fmt.Println("Database Migrated")
 }
