@@ -7,14 +7,14 @@ import (
 
 type User struct {
 	gorm.Model
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
-	Email     string `json:"email" gorm:"not null;unique"`
-	Password  []byte `json:"-"`
-	Product   []Product
-	Cart      []Cart
-	Order     []Order
-	Reviews   []Reviews
+	FirstName string    `json:"firstname"`
+	LastName  string    `json:"lastname"`
+	Email     string    `json:"email" gorm:"not null;unique"`
+	Password  []byte    `json:"-"`
+	Product   []Product `json:"-"`
+	Cart      []Cart    `json:"-"`
+	Order     []Order   `json:"-"`
+	Reviews   []Reviews `json:"-"`
 }
 
 func (user *User) SetPassword(password string) {

@@ -17,7 +17,7 @@ type Product struct {
 	StoreID         uint
 	CategoriesID    uint
 	CurrencyID      uint
-	OrderItems      []OrderItems
-	Reviews         []Reviews
-	CartItems       []CartItems
+	OrderItems      []OrderItems `json:"-"`
+	Reviews         []Reviews    `json:"-"`
+	CartItems       []CartItems  `json:"-"`
 }
