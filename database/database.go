@@ -15,7 +15,9 @@ var (
 func Connect() {
 	dsn := "host=localhost user=postgres password=root dbname=nextlearn port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 	var err error
-	DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
 	if err != nil {
 		panic("Failed to connect to database")
 	}

@@ -135,7 +135,7 @@ func Logout(c *fiber.Ctx) error {
 
 	c.Cookie(&cookie)
 	return c.JSON(fiber.Map{
-		"messsage": "success",
+		"message": "success",
 	})
 }
 
