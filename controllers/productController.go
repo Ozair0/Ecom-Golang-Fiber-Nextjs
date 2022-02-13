@@ -13,6 +13,34 @@ func GetAllProducts(c *fiber.Ctx) error {
 	return c.JSON(products)
 }
 
+func GetProduct(c *fiber.Ctx) error {
+	id, _ := c.ParamsInt("id")
+	var product models.Product
+	product.ID = uint(id)
+	database.DBConn.Find(&product)
+	return c.JSON(product)
+}
+
+func UpdateProduct(c *fiber.Ctx) error {
+	id, _ := c.ParamsInt("id")
+	product := models.Product{}
+	if err := c.BodyParser(&product); err != nil {
+		return err
+	}
+	product.ID = uint(id)
+	database.DBConn.Model(&product).Updates(&product)
+	return c.JSON(product)
+}
+
+func DeleteProduct(c *fiber.Ctx) error {
+	id, _ := c.ParamsInt("id")
+	var product models.Product
+	product.ID = uint(id)
+	//database.DBConn.Model(&product).Delete(&product)
+	database.DBConn.Delete(&product)
+	return nil
+}
+
 func AddProducts(c *fiber.Ctx) error {
 	var data map[string]string
 	if err := c.BodyParser(&data); err != nil {
