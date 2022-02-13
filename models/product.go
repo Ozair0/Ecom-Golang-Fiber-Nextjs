@@ -12,6 +12,7 @@ type Product struct {
 	Height          float32 `json:"height"`
 	Price           float32 `json:"price"`
 	AdditionalPrice float32 `json:"additionalPrice"`
+	Image           string  `json:"image"`
 	QTY             int     `json:"QTY"`
 	UserID          uint
 	StoreID         uint
