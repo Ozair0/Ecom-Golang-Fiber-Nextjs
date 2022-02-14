@@ -1,7 +1,7 @@
 # Ecom-Golang-Fiber-Nextjs
 
 ## Setup
->### Follow bello steps to run the app in Dev & Prod
+>### Follow bellow steps to run the app in Dev & Prod
 
 >### Development Mode
 >#### Step 1 => <code>go run main.go</code> Migrations is done in this step.
