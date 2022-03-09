@@ -10,8 +10,14 @@ import (
 func SetupRoutes(app *fiber.App) {
 	api := app.Group("api")
 	admin := api.Group("admin")
-	admin.Post("/register", controllers.Register)
-	admin.Post("/login", controllers.Login)
+	api.Get("/status", func(ctx *fiber.Ctx) error {
+		return ctx.JSON(fiber.Map{
+			"message": "success",
+			//"message": "Server In Maintenance Mode, Come Back After 2Hr.🙃",
+		})
+	})
+	api.Post("/login", controllers.Login)
+	api.Post("/register", controllers.Register)
 	adminAuthenticated := admin.Use(middlewares.IsAuthenticated)
 	adminAuthenticated.Get("/user", controllers.User)
 	adminAuthenticated.Get("/logout", controllers.Logout)
