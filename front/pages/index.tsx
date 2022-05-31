@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {Context, useEffect} from "react";
 import Image from "next/image";
 import axios from "axios";
 
@@ -18,17 +18,6 @@ const features = [
 
 
 const Home = (props: Props) => {
-  useEffect(() => {
-    axios
-        .get("/status")
-        .then((res) => {
-          console.log(res.data.message)
-        })
-        .catch((error) => {
-          console.log(error)
-        });
-  }, []);
-
   return (
       <>
         <div className="relative bg-white overflow-hidden">
@@ -41,7 +30,7 @@ const Home = (props: Props) => {
                 <p className="mt-4 text-xl text-gray-500">
                   This year, our new summer collection will shelter you from the harsh elements of a world that
                   doesn`&apos;`t care
-                  if you live or die.
+                  if you live or die. Status: {props.status}
                 </p>
               </div>
               <div>
@@ -186,19 +175,19 @@ const Home = (props: Props) => {
   )
 }
 
-// export async function getServerSideProps(context: Context<any>) {
-//   let status: string = "";
-//   await axios
-//     .get("/status")
-//     .then((res) => {
-//       status = res.data.message;
-//     })
-//     .catch((error) => {
-//       status = "Server Down!";
-//     });
-//   return {
-//     props: { status }, // will be passed to the page component as props
-//   };
-// }
+export async function getServerSideProps(context: Context<any>) {
+  let status: string = "";
+  await axios
+    .get("/status")
+    .then((res) => {
+      status = res.data.message;
+    })
+    .catch((error) => {
+      status = "Server Down!";
+    });
+  return {
+    props: { status }, // will be passed to the page component as props
+  };
+}
 
 export default Home;
