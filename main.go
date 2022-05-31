@@ -1,22 +1,35 @@
 package main
 
 import (
-	"gonextjs/database"
-	"gonextjs/routes"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/joho/godotenv"
+	"gonextjs/database"
+	"gonextjs/routes"
+	"os"
 )
 
 func main() {
-	app := fiber.New()
+	errenv := godotenv.Load()
+	if errenv != nil {
+		return
+	}
+	config := fiber.Config{
+		Prefork:                  true,
+		CaseSensitive:            true,
+		StrictRouting:            true,
+		DisableHeaderNormalizing: true,
+		ServerHeader:             "go",
+	}
+
+	app := fiber.New(config)
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,
 	}))
 	database.Connect()
 	database.AutoMigrate()
 	routes.SetupRoutes(app)
-	err := app.Listen(":3000")
+	err := app.Listen(":" + os.Getenv("PORT"))
 	if err != nil {
 		return
 	}
