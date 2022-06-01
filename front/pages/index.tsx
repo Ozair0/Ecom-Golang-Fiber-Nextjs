@@ -18,6 +18,16 @@ const features = [
 
 
 const Home = (props: Props) => {
+  useEffect(() => {
+    axios
+        .get("/status")
+        .then((res) => {
+          console.log(res.data.message)
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+  }, []);
   return (
       <>
         <div className="relative bg-white overflow-hidden">

@@ -24,7 +24,13 @@ func main() {
 
 	app := fiber.New(config)
 	app.Use(cors.New(cors.Config{
-		AllowCredentials: true,
+		Next:             nil,
+		AllowOrigins:     "*",
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH",
+		AllowHeaders:     "",
+		AllowCredentials: false,
+		ExposeHeaders:    "",
+		MaxAge:           0,
 	}))
 	database.Connect()
 	database.AutoMigrate()

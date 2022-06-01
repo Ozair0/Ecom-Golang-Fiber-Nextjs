@@ -3,16 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start -p 8080",
-    "lint": "next lint"
+    "start": "cross-env NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "axios": "^0.26.1",
+    "cross-env": "^7.0.2",
+    "dotenv": "^16.0.1",
+    "express": "^4.17.1",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
