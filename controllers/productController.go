@@ -9,7 +9,7 @@ import (
 
 func GetAllProducts(c *fiber.Ctx) error {
 	var products []models.Product
-	database.DBConn.Find(&products)
+	database.DBConn.Preload("User").Preload("Categories").Preload("Store").Preload("Currency").Find(&products)
 	return c.JSON(products)
 }
 

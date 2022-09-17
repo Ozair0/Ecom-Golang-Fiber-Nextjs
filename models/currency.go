@@ -4,7 +4,6 @@ import "gorm.io/gorm"
 
 type Currency struct {
 	gorm.Model
-	Title   string    `json:"title"`
-	Code    string    `json:"code"`
-	Product []Product `json:"-"`
+	Title string `json:"title"`
+	Code  string `json:"code"`
 }

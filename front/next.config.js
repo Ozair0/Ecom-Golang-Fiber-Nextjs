@@ -5,6 +5,10 @@ const nextConfig = {
   images: {
     domains: ["images.unsplash.com","tailwindui.com"],
   },
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+    backendUrl: process.env.NEXT_PUBLIC_BASE_API
+  }
 };
 
 module.exports = nextConfig;

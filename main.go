@@ -15,7 +15,7 @@ func main() {
 		return
 	}
 	config := fiber.Config{
-		Prefork:                  true,
+		Prefork:                  false,
 		CaseSensitive:            true,
 		StrictRouting:            true,
 		DisableHeaderNormalizing: true,
@@ -28,7 +28,7 @@ func main() {
 		AllowOrigins:     "*",
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH",
 		AllowHeaders:     "",
-		AllowCredentials: false,
+		AllowCredentials: true,
 		ExposeHeaders:    "",
 		MaxAge:           0,
 	}))
