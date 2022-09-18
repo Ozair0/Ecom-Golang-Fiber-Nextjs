@@ -5,12 +5,11 @@ import axios from "../util/axiosConfig";
 import { setCookie, setCookies } from "cookies-next";
 export default function Shop() {
   const [products, setProducts] = useState([]);
-  const [currencies, setCurrencies] = useState([]);
   useEffect(() => {
     axios
-      .get("admin/products")
+      .get("admin/products?page=1&pageSize=20")
       .then((res) => {
-        setProducts(res.data);
+        setProducts(res.data.Products);
       })
       .catch((error) => {
         console.log(error);
@@ -27,7 +26,7 @@ export default function Shop() {
           {products.length > 0 &&
             products.map((product: any) => (
               <div key={product.id} className="group relative">
-                <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                <div className="min-h-80 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80">
                   <Image
                     src={
                       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
@@ -41,7 +40,7 @@ export default function Shop() {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                      <Link href={"/product/"}>
+                      <Link href={"/product/" + product.ID}>
                         <a>
                           <span
                             aria-hidden="true"
@@ -62,6 +61,45 @@ export default function Shop() {
             ))}
         </div>
       </div>
+      <nav
+        aria-label="Page navigation example"
+        className="w-full flex justify-center"
+      >
+        <ul className="inline-flex -space-x-px my-10">
+          <li>
+            <a
+              href="#"
+              className="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              Previous
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              1
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              2
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }

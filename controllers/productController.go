@@ -5,11 +5,40 @@ import (
 	"gonextjs/database"
 	"gonextjs/models"
 	"gonextjs/util"
+	"math"
+	"strconv"
 )
 
+type ProductsList struct {
+	Products    []models.Product
+	FirstPage   int
+	CurrentPage int
+	LastPage    int
+}
+
 func GetAllProducts(c *fiber.Ctx) error {
-	var products []models.Product
-	database.DBConn.Preload("User").Preload("Categories").Preload("Store").Preload("Currency").Find(&products)
+	page, _ := strconv.Atoi(c.Query("page", "1"))
+	pageSize, _ := strconv.Atoi(c.Query("pageSize", "10"))
+	switch {
+	case pageSize > 20:
+		pageSize = 20
+	case pageSize <= 0:
+		pageSize = 10
+	}
+	offset := (page - 1) * pageSize
+
+	var products ProductsList
+	var totalRows int64
+	var totalPage int
+
+	database.DBConn.Model(models.Product{}).Count(&totalRows)
+	totalPage = int(math.Ceil(float64(totalRows) / float64(pageSize)))
+
+	products.FirstPage = 1
+	products.CurrentPage = page
+	products.LastPage = totalPage
+
+	database.DBConn.Offset(offset).Limit(pageSize).Preload("User").Preload("Categories").Preload("Store").Preload("Currency").Find(&products.Products)
 	return c.JSON(products)
 }
 
@@ -17,7 +46,7 @@ func GetProduct(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("id")
 	var product models.Product
 	product.ID = uint(id)
-	database.DBConn.Find(&product)
+	database.DBConn.Preload("User").Preload("Categories").Preload("Store").Preload("Currency").Find(&product)
 	return c.JSON(product)
 }
 

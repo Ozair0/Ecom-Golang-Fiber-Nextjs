@@ -13,6 +13,6 @@ func ParseFloat64(s string) float64 {
 }
 
 func ParseInt(s string) int {
-	result, _ := strconv.ParseInt(s, 32, 32)
-	return int(result)
+	result, _ := strconv.Atoi(s)
+	return result
 }
