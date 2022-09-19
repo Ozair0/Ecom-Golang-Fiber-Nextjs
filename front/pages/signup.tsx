@@ -1,7 +1,7 @@
 import { HandIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function Signup() {
@@ -10,7 +10,7 @@ export default function Signup() {
   const router = useRouter();
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!router.isReady) return;
     if (auth) router.push("/");
   }, [auth, router, router.isReady]);

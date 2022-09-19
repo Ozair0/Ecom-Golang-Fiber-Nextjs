@@ -1,12 +1,10 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { FormEvent, useEffect, useLayoutEffect, useState } from "react";
+import { FormEvent, useLayoutEffect, useState } from "react";
 import axios from "../util/axios";
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { auth_login } from "../store/userAuth";
-import { AppContext } from "next/app";
 
 function Signin() {
   const auth = useSelector((state: RootState) => state.userAuth.loggedIn);
@@ -16,7 +14,7 @@ function Signin() {
   const [password, setPassword] = useState(undefined);
   useLayoutEffect(() => {
     if (auth) router.push("/");
-  }, []);
+  }, [auth, router, router.isReady]);
 
   const login = (event: FormEvent) => {
     console.log(auth);
@@ -54,6 +52,7 @@ function Signin() {
                   Email address
                 </label>
                 <input
+                  // @ts-ignore
                   onInput={(event) => setEmail(event.target.value)}
                   id="email-address"
                   name="email"
@@ -69,6 +68,7 @@ function Signin() {
                   Password
                 </label>
                 <input
+                  // @ts-ignore
                   onInput={(event) => setPassword(event.target.value)}
                   id="password"
                   name="password"

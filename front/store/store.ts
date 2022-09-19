@@ -4,6 +4,8 @@ import { createWrapper } from "next-redux-wrapper";
 import storage from "../util/storage";
 import userAuth from "./userAuth";
 import { persistReducer, persistStore } from "redux-persist";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
 
 const rootReducer = combineReducers({
   userAuth: userAuth,
@@ -25,6 +27,7 @@ export const store = configureStore({
         ignoredPaths: [],
       },
     }),
+  devTools: publicRuntimeConfig.appMode === "development",
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

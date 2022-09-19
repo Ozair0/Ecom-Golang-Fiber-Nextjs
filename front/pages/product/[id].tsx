@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { RadioGroup } from "@headlessui/react";
 import axios from "../../util/axios";
+import { object } from "prop-types";
 const breadcrumbs = [
   { id: 1, name: "Men", href: "#" },
   { id: 2, name: "Clothing", href: "#" },
@@ -113,10 +114,12 @@ export default function Product() {
             {product && (
               <li className="text-sm">
                 <a
+                  // @ts-ignore
                   href={product.ID}
                   aria-current="page"
                   className="font-medium text-gray-500 hover:text-gray-600"
                 >
+                  {/* @ts-ignore */}
                   {product.title}
                 </a>
               </li>
@@ -162,6 +165,7 @@ export default function Product() {
         <div className="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+              {/* @ts-ignore */}
               {product && product.title}
             </h1>
           </div>
@@ -171,8 +175,10 @@ export default function Product() {
             <h2 className="sr-only">Product information</h2>
             <p className="text-3xl text-gray-900">
               {product &&
+                // @ts-ignore
                 product.Currency.code +
                   " " +
+                  // @ts-ignore
                   (product.price + product.additionalPrice)}
             </p>
 
@@ -344,6 +350,7 @@ export default function Product() {
 
               <div className="space-y-6">
                 <p className="text-base text-gray-900">
+                  {/* @ts-ignore */}
                   {product && product.description}
                 </p>
               </div>
