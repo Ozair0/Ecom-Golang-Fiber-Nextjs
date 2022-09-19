@@ -25,9 +25,11 @@ func SetupRoutes(app *fiber.App) {
 	adminAuthenticated.Put("/users/password", controllers.UpdatePassword)
 
 	/* Product */
+	// public routes
+	api.Get("/products", controllers.GetAllProducts)
+	api.Get("/products/:id", controllers.GetProduct)
+	// Admin routes
 	adminAuthenticated.Post("/product", controllers.AddProducts)
-	adminAuthenticated.Get("/products", controllers.GetAllProducts)
-	adminAuthenticated.Get("/products/:id", controllers.GetProduct)
 	adminAuthenticated.Put("/products/:id", controllers.UpdateProduct)
 	adminAuthenticated.Delete("/products/:id", controllers.DeleteProduct)
 

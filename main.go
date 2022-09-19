@@ -37,6 +37,7 @@ func main() {
 	routes.SetupRoutes(app)
 	err := app.Listen(":" + os.Getenv("PORT"))
 	if err != nil {
+		println(err.Error())
 		return
 	}
 }

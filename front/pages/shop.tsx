@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import axios from "../util/axiosConfig";
+import axios from "../util/axios";
 function Shop() {
   const [products, setProducts] = useState([]);
   const [startPage, setStartPage] = useState(0);
@@ -9,7 +9,7 @@ function Shop() {
   const [lastPage, setLastPage] = useState(0);
   useEffect(() => {
     axios
-      .get("admin/products?page=1&pageSize=20")
+      .get("products?page=1&pageSize=20")
       .then((res) => {
         setProducts(res.data.Products);
         setStartPage(res.data.FirstPage);
@@ -23,7 +23,7 @@ function Shop() {
     event.preventDefault();
 
     axios
-      .get(`admin/products?page=${page}&pageSize=20`)
+      .get(`products?page=${page}&pageSize=20`)
       .then((res) => {
         setProducts(res.data.Products);
         setStartPage(res.data.FirstPage);
@@ -190,7 +190,7 @@ function Shop() {
 // This gets called on every request
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   // Fetch data from external API
-//   const data = await axios.get("admin/products?page=1&pageSize=10", {
+//   const data = await axios.get("products?page=1&pageSize=10", {
 //     headers: {
 //       Cookie: `jwt=${context.req.cookies.jwt}`,
 //     },

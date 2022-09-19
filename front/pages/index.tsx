@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { getCookie } from "cookies-next";
+import { useEffect } from "react";
 
 interface Props {
   status: string;
