@@ -59,6 +59,18 @@ func Register(c *fiber.Ctx) error {
 		})
 	}
 
+	payload := jwt.StandardClaims{
+		Subject:   strconv.Itoa(int(user.ID)),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	}
+	token, _ := jwt.NewWithClaims(jwt.SigningMethodHS256, payload).SignedString([]byte("secret"))
+	cookie := fiber.Cookie{
+		Name:     "jwt",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HTTPOnly: true,
+	}
+	c.Cookie(&cookie)
 	return c.JSON(user)
 }
 

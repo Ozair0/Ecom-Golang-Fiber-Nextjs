@@ -1,19 +1,50 @@
 import { HandIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { useLayoutEffect, useState } from "react";
+import { FormEvent, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "../util/axios";
+import { auth_login } from "../store/userAuth";
 
 export default function Signup() {
   const auth = useSelector((state: RootState) => state.userAuth.loggedIn);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [email, setEmail] = useState(undefined);
-  const [password, setPassword] = useState(undefined);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   useLayoutEffect(() => {
     if (!router.isReady) return;
     if (auth) router.push("/");
   }, [auth, router, router.isReady]);
+  const signUp = (event: FormEvent) => {
+    event.preventDefault();
+    if (firstName.trim() === "") alert("First Name cannot be empty!");
+    else if (lastName.trim() === "") alert("Last Name cannot be empty!");
+    else if (email.trim() === "") alert("Email cannot be empty!");
+    else if (password.trim() === "") alert("Password cannot be empty!");
+    else if (confirmPassword.trim() === "")
+      alert("Confirm Password cannot be empty!");
+    else if (password.trim() !== confirmPassword.trim())
+      alert("Passwords did not match!");
+    else {
+      axios
+        .post("register", {
+          firstname: firstName.trim(),
+          lastname: lastName.trim(),
+          email: email.trim(),
+          password: password.trim(),
+          password_confirm: confirmPassword.trim(),
+        })
+        .then((res) => {
+          dispatch(auth_login(true));
+          router.push("/");
+        })
+        .catch((error) => error);
+    }
+  };
   return (
     <>
       {/*
@@ -40,16 +71,47 @@ export default function Signup() {
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
+                <label htmlFor="firstname" className="sr-only">
+                  Fist Name
+                </label>
+                <input
+                  onInput={(event) => setFirstName(event.currentTarget.value)}
+                  id="firstname"
+                  name="firstname"
+                  type="text"
+                  autoComplete="current-password"
+                  required
+                  className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Fist Name"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastname" className="sr-only">
+                  Last Name
+                </label>
+                <input
+                  onInput={(event) => setLastName(event.currentTarget.value)}
+                  id="lastname"
+                  name="lastname"
+                  type="text"
+                  autoComplete="current-password"
+                  required
+                  className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Last Name"
+                />
+              </div>
+              <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
                 </label>
                 <input
+                  onInput={(event) => setEmail(event.currentTarget.value)}
                   id="email-address"
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -58,13 +120,31 @@ export default function Signup() {
                   Password
                 </label>
                 <input
+                  onInput={(event) => setPassword(event.currentTarget.value)}
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Password"
+                />
+              </div>
+              <div>
+                <label htmlFor="confirm_password" className="sr-only">
+                  Confirm Password
+                </label>
+                <input
+                  onInput={(event) =>
+                    setConfirmPassword(event.currentTarget.value)
+                  }
+                  id="confirm_password"
+                  name="confirm_password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Confirm Password"
                 />
               </div>
             </div>
@@ -97,6 +177,7 @@ export default function Signup() {
 
             <div>
               <button
+                onClick={signUp}
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >

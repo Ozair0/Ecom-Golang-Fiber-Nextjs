@@ -17,7 +17,6 @@ function Signin() {
   }, [auth, router, router.isReady]);
 
   const login = (event: FormEvent) => {
-    console.log(auth);
     event.preventDefault();
     axios
       .post("login", {

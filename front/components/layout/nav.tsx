@@ -12,6 +12,8 @@ import { RootState } from "../../store/store";
 import axios from "../../util/axios";
 import { error } from "next/dist/build/output/log";
 import { auth_login } from "../../store/userAuth";
+import { ErrorProps } from "next/error";
+import { AxiosError } from "axios";
 const navigation = {
   categories: [
     // {
@@ -158,7 +160,9 @@ export default function Nav() {
       .then((res) => {
         dispatch(auth_login(false));
       })
-      .catch((error) => error);
+      .catch((error: AxiosError) => {
+        if (error.response?.status === 401) dispatch(auth_login(false));
+      });
   };
 
   return (
