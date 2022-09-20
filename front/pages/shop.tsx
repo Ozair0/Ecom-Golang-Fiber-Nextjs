@@ -1,9 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import axios from "../util/axios";
+import { LockClosedIcon, PlusIcon } from "@heroicons/react/solid";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { addProducts, ProductsState, ProductState } from "../store/products";
+import { addItemToCart, CartItemState } from "../store/cart";
 function Shop() {
-  const [products, setProducts] = useState([]);
+  const { products }: ProductsState = useSelector(
+    (state: RootState) => state.products
+  );
+  const dispatch = useDispatch();
   const [startPage, setStartPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [lastPage, setLastPage] = useState(0);
@@ -11,7 +19,7 @@ function Shop() {
     axios
       .get("products?page=1&pageSize=20")
       .then((res) => {
-        setProducts(res.data.Products);
+        dispatch(addProducts(res.data.Products));
         setStartPage(res.data.FirstPage);
         setCurrentPage(res.data.CurrentPage);
         setLastPage(res.data.LastPage);
@@ -25,7 +33,7 @@ function Shop() {
     axios
       .get(`products?page=${page}&pageSize=20`)
       .then((res) => {
-        setProducts(res.data.Products);
+        dispatch(addProducts(res.data.Products));
         setStartPage(res.data.FirstPage);
         setCurrentPage(res.data.CurrentPage);
         setLastPage(res.data.LastPage);
@@ -92,6 +100,12 @@ function Shop() {
     return rowList;
   };
 
+  const addToCart = (event: FormEvent, id: number) => {
+    event.preventDefault();
+    // const ID: CartItemState = { ID: id };
+    dispatch(addItemToCart({ ID: id }));
+  };
+
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -101,41 +115,56 @@ function Shop() {
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.length > 0 &&
-            products.map((product: any) => (
-              <div key={product.ID} className="group relative">
-                <div className="min-h-80 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80">
-                  <Image
-                    src={
-                      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
-                    }
-                    width={350}
-                    height={450}
-                    alt={product.imageAlt}
-                    className="w-full h-full object-center object-cover lg:w-full lg:h-full"
-                  />
-                </div>
-                <div className="mt-4 flex justify-between">
-                  <div>
-                    <h3 className="text-sm text-gray-700">
-                      <Link href={"/product/" + product.ID}>
-                        <a>
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {product.title}
-                        </a>
-                      </Link>
-                    </h3>
+            products.map(
+              (product) =>
+                product && (
+                  <div key={product.ID} className="group relative">
+                    <a
+                      onClick={(event) => addToCart(event, product.ID)}
+                      href=""
+                      className={
+                        "absolute z-10 p-2 bg-blue-500 hover:bg-blue-400 rounded-3xl right-2 top-2"
+                      }
+                    >
+                      <PlusIcon
+                        className="h-5 w-5 text-white"
+                        aria-hidden="true"
+                      />
+                    </a>
+                    <div className="min-h-80 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80">
+                      <Image
+                        src={
+                          "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+                        }
+                        width={350}
+                        height={450}
+                        alt={product.image}
+                        className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-between">
+                      <div>
+                        <h3 className="text-sm text-gray-700">
+                          <Link href={"/product/" + product.ID}>
+                            <a>
+                              <span
+                                aria-hidden="true"
+                                className="absolute inset-0"
+                              />
+                              {product.title}
+                            </a>
+                          </Link>
+                        </h3>
+                      </div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {product.Currency.code +
+                          " " +
+                          (product.price + product.additionalPrice)}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {product.Currency.code +
-                      " " +
-                      (product.price + product.additionalPrice)}
-                  </p>
-                </div>
-              </div>
-            ))}
+                )
+            )}
         </div>
       </div>
       <nav

@@ -5,10 +5,14 @@ import storage from "../util/storage";
 import userAuth from "./userAuth";
 import { persistReducer, persistStore } from "redux-persist";
 import getConfig from "next/config";
+import products from "./products";
+import cart from "./cart";
 const { publicRuntimeConfig } = getConfig();
 
 const rootReducer = combineReducers({
   userAuth: userAuth,
+  products: products,
+  cart: cart,
   // any other reducers here
 });
 const persistConfig = {

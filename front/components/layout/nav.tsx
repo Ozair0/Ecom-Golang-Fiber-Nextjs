@@ -150,6 +150,7 @@ function classNames(...classes: any) {
 
 export default function Nav() {
   const auth = useSelector((state: RootState) => state.userAuth.loggedIn);
+  const cartLength = useSelector((state: RootState) => state.cart.items.length);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -565,7 +566,7 @@ export default function Nav() {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {cartLength}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
