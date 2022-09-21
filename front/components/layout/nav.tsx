@@ -1,19 +1,13 @@
 import { FormEvent, Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingBagIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { MenuIcon, ShoppingBagIcon, XIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import axios from "../../util/axios";
-import { error } from "next/dist/build/output/log";
 import { auth_login } from "../../store/userAuth";
-import { ErrorProps } from "next/error";
 import { AxiosError } from "axios";
+import { showCart } from "../../store/toggleCart";
 const navigation = {
   categories: [
     // {
@@ -150,7 +144,7 @@ function classNames(...classes: any) {
 
 export default function Nav() {
   const auth = useSelector((state: RootState) => state.userAuth.loggedIn);
-  const cartLength = useSelector((state: RootState) => state.cart.items.length);
+  const cartLength = useSelector((state: RootState) => state.cart.length);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -560,7 +554,14 @@ export default function Nav() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 p-2 flex items-center">
+                  <a
+                    onClick={(event: FormEvent) => {
+                      event.preventDefault();
+                      dispatch(showCart(true));
+                    }}
+                    href={""}
+                    className="group -m-2 p-2 flex items-center"
+                  >
                     <ShoppingBagIcon
                       className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"

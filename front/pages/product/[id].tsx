@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { RadioGroup } from "@headlessui/react";
 import axios from "../../util/axios";
 import { object } from "prop-types";
+import { addItemToCart } from "../../store/cart";
+import { useDispatch } from "react-redux";
 const breadcrumbs = [
   { id: 1, name: "Men", href: "#" },
   { id: 2, name: "Clothing", href: "#" },
@@ -64,6 +66,7 @@ function classNames(...classes: any) {
 
 export default function Product() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [product, setProduct] = useState(undefined);
   const [selectedColor, setSelectedColor] = useState(product1.colors[0]);
@@ -79,6 +82,12 @@ export default function Product() {
       })
       .catch((error) => error);
   }, [router.isReady, router.query]);
+
+  const addToCart = (event: FormEvent, id: number, price: number) => {
+    event.preventDefault();
+    // const ID: CartItemState = { ID: id };
+    dispatch(addItemToCart({ ID: id, QTY: 1, price }));
+  };
 
   return (
     <div className="bg-white">
@@ -335,6 +344,15 @@ export default function Product() {
               </div>
 
               <button
+                onClick={(event) =>
+                  addToCart(
+                    event,
+                    // @ts-ignore
+                    product?.ID,
+                    // @ts-ignore
+                    product?.price + product?.additionalPrice
+                  )
+                }
                 type="submit"
                 className="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >

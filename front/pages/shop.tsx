@@ -100,10 +100,10 @@ function Shop() {
     return rowList;
   };
 
-  const addToCart = (event: FormEvent, id: number) => {
+  const addToCart = (event: FormEvent, id: number, price: number) => {
     event.preventDefault();
     // const ID: CartItemState = { ID: id };
-    dispatch(addItemToCart({ ID: id }));
+    dispatch(addItemToCart({ ID: id, QTY: 1, price }));
   };
 
   return (
@@ -120,7 +120,13 @@ function Shop() {
                 product && (
                   <div key={product.ID} className="group relative">
                     <a
-                      onClick={(event) => addToCart(event, product.ID)}
+                      onClick={(event) =>
+                        addToCart(
+                          event,
+                          product.ID,
+                          product.price + product.additionalPrice
+                        )
+                      }
                       href=""
                       className={
                         "absolute z-10 p-2 bg-blue-500 hover:bg-blue-400 rounded-3xl right-2 top-2"
