@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import axios from "../util/axios";
 import { useRouter } from "next/router";
 import { showCart } from "../store/toggleCart";
 import { ProductState } from "../store/products";
+import { addItemToCart, removeItemFromCart } from "../store/cart";
+import { MinusIcon, PlusIcon } from "@heroicons/react/solid";
 
 export default function Cart() {
   const router = useRouter();
@@ -28,7 +30,15 @@ export default function Cart() {
         .catch((error) => error);
     });
   }, [items]);
+  const addToCart = (event: FormEvent, id: number, price: number) => {
+    event.preventDefault();
+    dispatch(addItemToCart({ ID: id, QTY: 1, price }));
+  };
 
+  const removeFromCart = (event: FormEvent, id: number) => {
+    event.preventDefault();
+    dispatch(removeItemFromCart(id));
+  };
   return (
     <>
       {show && (
@@ -97,12 +107,39 @@ export default function Cart() {
                           {/*  <option>02</option>*/}
                           {/*  <option>03</option>*/}
                           {/*</select>*/}
-                          <div className="py-2 px-1 border-gray-200 mr-6 focus:outline-none">
+                          <div className="py-2 px-1 border-gray-200 mr-6 focus:outline-none flex items-center justify-between">
+                            <a
+                              href=""
+                              onClick={(event) =>
+                                removeFromCart(event, product.ID)
+                              }
+                            >
+                              <MinusIcon
+                                className="h-6 w-6 text-black mr-4"
+                                aria-hidden="true"
+                              />
+                            </a>
                             <input
-                              className="w-14 h-5"
+                              className="w-16 text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
                               type="number"
+                              readOnly
                               value={`${product.QTY}`}
                             />
+                            <a
+                              href=""
+                              onClick={(event) =>
+                                addToCart(
+                                  event,
+                                  product.ID,
+                                  product.price + product.additionalPrice
+                                )
+                              }
+                            >
+                              <PlusIcon
+                                className="h-6 w-6 text-black ml-4"
+                                aria-hidden="true"
+                              />
+                            </a>
                           </div>
                         </div>
                         <p className="text-xs leading-3 text-gray-600 pt-2">

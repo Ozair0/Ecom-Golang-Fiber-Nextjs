@@ -35,13 +35,36 @@ export const cartSlice = createSlice({
         });
         if (!found) {
           state.items.push(action.payload);
+          state.items.sort(function (a, b) {
+            // @ts-ignore
+            return a.ID - b.ID || a.title.localeCompare(b.title);
+          });
         }
       }
+    },
+    removeItemFromCart: (state: CartState, action: PayloadAction<number>) => {
+      // @ts-ignore
+      state.items.map((item, index) => {
+        if (item?.ID === action.payload) {
+          state.length -= 1;
+          state.total -= item.price;
+          if (item.QTY > 1) {
+            item.QTY -= 1;
+          } else {
+            // @ts-ignore
+            state.items.splice(index, 1);
+            state.items.sort(function (a, b) {
+              // @ts-ignore
+              return a.ID - b.ID || a.title.localeCompare(b.title);
+            });
+          }
+        }
+      });
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addItemToCart } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

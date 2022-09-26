@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import axios from "../util/axios";
-import { LockClosedIcon, PlusIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { addProducts, ProductsState, ProductState } from "../store/products";
