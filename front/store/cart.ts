@@ -53,11 +53,18 @@ export const cartSlice = createSlice({
           } else {
             // @ts-ignore
             state.items.splice(index, 1);
-            state.items.sort(function (a, b) {
-              // @ts-ignore
-              return a.ID - b.ID || a.title.localeCompare(b.title);
-            });
           }
+        }
+      });
+    },
+    deleteItemFromCart: (state: CartState, action: PayloadAction<number>) => {
+      // @ts-ignore
+      state.items.map((item, index) => {
+        if (item?.ID === action.payload) {
+          state.length -= item.QTY;
+          state.total -= item.price * item.QTY;
+          // @ts-ignore
+          state.items.splice(index, 1);
         }
       });
     },
@@ -65,6 +72,7 @@ export const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart, deleteItemFromCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

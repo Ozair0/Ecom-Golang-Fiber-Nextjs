@@ -5,7 +5,11 @@ import axios from "../util/axios";
 import { useRouter } from "next/router";
 import { showCart } from "../store/toggleCart";
 import { ProductState } from "../store/products";
-import { addItemToCart, removeItemFromCart } from "../store/cart";
+import {
+  addItemToCart,
+  deleteItemFromCart,
+  removeItemFromCart,
+} from "../store/cart";
 import { MinusIcon, PlusIcon } from "@heroicons/react/solid";
 
 export default function Cart() {
@@ -29,7 +33,7 @@ export default function Cart() {
         })
         .catch((error) => error);
     });
-  }, [items]);
+  }, [items, router.isReady]);
   const addToCart = (event: FormEvent, id: number, price: number) => {
     event.preventDefault();
     dispatch(addItemToCart({ ID: id, QTY: 1, price }));
@@ -39,6 +43,12 @@ export default function Cart() {
     event.preventDefault();
     dispatch(removeItemFromCart(id));
   };
+
+  const deleteItem = (event: FormEvent, id: number) => {
+    event.preventDefault();
+    dispatch(deleteItemFromCart(id));
+  };
+
   return (
     <>
       {show && (
@@ -95,9 +105,6 @@ export default function Cart() {
                         />
                       </div>
                       <div className="md:pl-3 md:w-3/4">
-                        <p className="text-xs leading-3 text-gray-800 md:pt-0 pt-4">
-                          RF293
-                        </p>
                         <div className="flex items-center justify-between w-full pt-1">
                           <p className="text-base font-black leading-none text-gray-800">
                             {product.title}
@@ -153,12 +160,16 @@ export default function Cart() {
                         </p>
                         <div className="flex items-center justify-between pt-5 pr-6">
                           <div className="flex itemms-center">
-                            <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
-                              Add to favorites
-                            </p>
-                            <p className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">
+                            {/*<a href="" className="text-xs leading-3 underline text-gray-800">*/}
+                            {/*  Add to favorites*/}
+                            {/*</a>*/}
+                            <a
+                              href=""
+                              onClick={(event) => deleteItem(event, product.ID)}
+                              className="text-xs leading-3 underline text-red-500"
+                            >
                               Remove
-                            </p>
+                            </a>
                           </div>
                           <div className="flex flex-col items-center">
                             <p className="text-base font-black leading-none text-gray-800">
