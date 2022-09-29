@@ -19,25 +19,41 @@ func main() {
 			}
 			database.DBConn.Create(&store)
 		}
+
+		UserType0 := models.UserTypes{
+			UserType: "Customer",
+		}
+		UserType1 := models.UserTypes{
+			UserType: "Seller",
+		}
+		UserType2 := models.UserTypes{
+			UserType: "Admin",
+		}
+		database.DBConn.Create(&UserType0)
+		database.DBConn.Create(&UserType1)
+		database.DBConn.Create(&UserType2)
+
 		for i := 0; i < 2; i++ {
 			categories := models.Categories{
 				Description: faker.Sentence(),
 			}
 			database.DBConn.Create(&categories)
 		}
-		for i := 0; i < 2; i++ {
-			cu := faker.Currency()
-			currency := models.Currency{
-				Title: cu,
-				Code:  cu,
-			}
-			database.DBConn.Create(&currency)
+		currency := models.Currency{
+			Title: "USD",
+			Code:  "$",
 		}
+		database.DBConn.Create(&currency)
+
+		var userTypes models.UserTypes
+		userTypes.UserType = "Customer"
+		database.DBConn.Find(&userTypes)
 		for i := 0; i < 100; i++ {
 			user := models.User{
 				FirstName: faker.FirstName(),
 				LastName:  faker.LastName(),
 				Email:     faker.Email(),
+				TypeId:    userTypes.ID,
 			}
 			user.SetPassword("password")
 			database.DBConn.Create(&user)
@@ -85,7 +101,7 @@ func main() {
 				UserID:          user.ID,
 				StoreID:         stores[1].ID,
 				CategoriesID:    categories[1].ID,
-				CurrencyID:      currencies[1].ID,
+				CurrencyID:      currencies[0].ID,
 			}
 			database.DBConn.Create(&product2)
 			for i := 0; i < 2; i++ {

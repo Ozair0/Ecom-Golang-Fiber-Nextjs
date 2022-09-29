@@ -18,11 +18,8 @@ type Product struct {
 	StoreID         uint
 	CategoriesID    uint
 	CurrencyID      uint
-	OrderItems      []OrderItems `json:"-"`
-	Reviews         []Reviews    `json:"-"`
-	CartItems       []CartItems  `json:"-"`
-	Currency        Currency     `gorm:"foreignKey:CurrencyID"`
-	Categories      Categories   `gorm:"foreignKey:CategoriesID"`
-	Store           Store        `gorm:"foreignKey:StoreID"`
-	User            User         `gorm:"foreignKey:UserID"`
+	Currency        Currency   `gorm:"foreignKey:CurrencyID"`
+	Categories      Categories `gorm:"foreignKey:CategoriesID"`
+	Store           Store      `gorm:"foreignKey:StoreID"`
+	User            User       `gorm:"foreignKey:UserID"`
 }
