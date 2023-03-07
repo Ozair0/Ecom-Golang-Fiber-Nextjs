@@ -152,13 +152,11 @@ function Shop() {
                       <div>
                         <h3 className="text-sm text-gray-700">
                           <Link href={"/product/" + product.ID}>
-                            <a>
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0"
-                              />
-                              {product.title}
-                            </a>
+                            <span
+                              aria-hidden="true"
+                              className="absolute inset-0"
+                            />
+                            {product.title}
                           </Link>
                         </h3>
                       </div>

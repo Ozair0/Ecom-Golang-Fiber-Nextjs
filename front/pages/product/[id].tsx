@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { RadioGroup } from "@headlessui/react";
 import axios from "../../util/axios";
-import { object } from "prop-types";
 import { addItemToCart } from "../../store/cart";
 import { useDispatch } from "react-redux";
 const breadcrumbs = [

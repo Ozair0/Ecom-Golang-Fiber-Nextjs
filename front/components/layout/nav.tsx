@@ -295,10 +295,11 @@ export default function Nav() {
                 {navigation &&
                   navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <Link href={page.href}>
-                        <a className="-m-2 p-2 block font-medium text-gray-900">
-                          {page.name}
-                        </a>
+                      <Link
+                        href={page.href}
+                        className="-m-2 p-2 block font-medium text-gray-900"
+                      >
+                        {page.name}
                       </Link>
                     </div>
                   ))}
@@ -364,13 +365,11 @@ export default function Nav() {
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
-                  <a>
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                      alt=""
-                    />
-                  </a>
+                  <img
+                    className="h-8 w-auto"
+                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                    alt=""
+                  />
                 </Link>
               </div>
 
@@ -489,10 +488,12 @@ export default function Nav() {
 
                   {navigation &&
                     navigation.pages.map((page) => (
-                      <Link key={page.name} href={page.href}>
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
-                          {page.name}
-                        </a>
+                      <Link
+                        key={page.name}
+                        href={page.href}
+                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                      >
+                        {page.name}
                       </Link>
                     ))}
                 </div>
@@ -502,19 +503,21 @@ export default function Nav() {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {!auth && (
                     <>
-                      <Link href={"/signin"}>
-                        <a className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                          Sign in
-                        </a>
+                      <Link
+                        href={"/signin"}
+                        className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                      >
+                        Sign in
                       </Link>
                       <span
                         className="h-6 w-px bg-gray-200"
                         aria-hidden="true"
                       />
-                      <Link href={"/signup"}>
-                        <a className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                          Sign Up
-                        </a>
+                      <Link
+                        href={"/signup"}
+                        className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                      >
+                        Sign Up
                       </Link>
                     </>
                   )}
